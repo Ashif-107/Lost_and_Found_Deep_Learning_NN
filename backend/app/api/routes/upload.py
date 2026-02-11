@@ -1,4 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Form
+from io import BytesIO
+
 from app.services.s3_service import upload_image
 from app.ml.inference.embedder import extract_embedding
 from app.ml.similarity.index_manager import faiss_index
@@ -10,13 +12,16 @@ async def upload_item(
     image: UploadFile = File(...),
     description: str = Form(...)
 ):
-    # 1. Upload image to S3
-    image_url = upload_image(image.file)
+    # 🔥 Read file ONCE
+    image_bytes = await image.read()
+
+    # 1. Upload to S3
+    image_url = upload_image(BytesIO(image_bytes))
 
     # 2. Extract embedding
-    embedding = extract_embedding(image.file)
+    embedding = extract_embedding(BytesIO(image_bytes))
 
-    # 3. Store embedding in FAISS with metadata
+    # 3. Add to FAISS
     faiss_index.add(
         embedding,
         {
@@ -26,6 +31,6 @@ async def upload_item(
     )
 
     return {
-        "message": "Item uploaded and indexed successfully",
+        "message": "Item uploaded & indexed successfully",
         "image_url": image_url
     }
