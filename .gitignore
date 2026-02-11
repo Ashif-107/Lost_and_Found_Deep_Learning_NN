@@ -1,0 +1,11 @@
+/backend/.env
+/frontend/frontend/node_modules
+/backend/app/__pycache__
+/backend/app/api/routes/__pycache__
+/backend/app/core/__pycache__
+/backend/app/services/__pycache__
+/backend/app/ml/similarity/__pycache__
+/backend/venv
+/backend/app/ml/inference/__pycache__
+/backend/app/ml/models/__pycache__
+/backend/app/ml/utils/__pycache__
