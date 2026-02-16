@@ -3,7 +3,7 @@ export default function ItemCard({ item }) {
     <div className="bg-slate-900 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition">
       <img
         src={item.image_url}
-        className="h-48 w-full object-cover"
+        className="h-48 w-full object-contain"
       />
       <div className="p-4">
         <p className="text-sm text-gray-400">
